@@ -1,0 +1,1131 @@
+---
+title: "Homework2"
+author: "Guowen Xing"
+date: "2025-09-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ex.1
+
+## Q.2
+
+```{r}
+# Create the sequence of x values from 3 to 6, incrementing by 0.1
+x <- seq(from = 3, to = 6, by = 0.1)
+
+# Calculate the value of e^x * cos(x) for each element in the vector x
+y <- exp(x) * cos(x)
+
+# Display the resulting vector
+print(y)
+```
+
+## Q.3
+
+### (a)
+
+```{r}
+# 1. Create the sequence for the exponents of 0.1 (3, 6, 9, ..., 36)
+exponents_A <- seq(from = 3, to = 36, by = 3)
+
+# 2. Create the sequence for the exponents of 0.2 (1, 4, 7, ..., 34)
+exponents_B <- seq(from = 1, to = 34, by = 3)
+
+# 3. Calculate the vector using the exponent sequences
+# The operation is performed element-wise
+final_vector <- (0.1^exponents_A) * (0.2^exponents_B)
+
+# 4. Display the final vector
+print(final_vector)
+```
+
+### (b)
+
+```{r}
+# 1. Create a vector 'n' representing the sequence of integers from 1 to 25
+n <- 1:25
+
+# 2. Calculate the vector using the formula (2^n) / n
+# R will automatically apply this operation to each element of 'n'
+final_vector <- (2^n) / n
+
+# 3. Display the resulting vector
+print(final_vector)
+```
+
+## Q.4
+
+### (a)
+
+```{r}
+# Create a vector for the index 'i' from 10 to 100
+i <- 10:100
+
+# Calculate the sum of the expression i^3 + 4*i^2 for the entire vector
+result_a <- sum(i^3 + 4 * i^2)
+
+# Display the result
+print(result_a)
+```
+
+### (b)
+
+```{r}
+# Create a vector for the index 'i' from 1 to 25
+i <- 1:25
+
+# Calculate the sum of the expression (2^i / i) + (3^i / i^2)
+result_b <- sum((2^i / i) + (3^i / i^2))
+
+# Display the result
+print(result_b)
+```
+
+## Q.5
+
+### (a)
+
+```{r}
+# Use paste() to combine the string "label" with the sequence of numbers from 1 to 30.
+label_vector <- paste("label", 1:30)
+
+# Display the vector
+print(label_vector)
+```
+
+### (b)
+
+```{r}
+# Use paste() to combine "fn" with the numbers 1 through 30
+# Set the separator 'sep' to an empty string "" to remove the space
+fn_vector <- paste("fn", 1:30, sep = "")
+
+# Display the vector
+print(fn_vector)
+```
+
+## Q.8 (extra)
+
+```{r}
+# 1. Define the sequences for the numerators and denominators
+numerators <- seq(from = 2, to = 38, by = 2)
+denominators <- seq(from = 3, to = 39, by = 2)
+
+# 2. Create a vector of the individual fractions
+fractions <- numerators / denominators
+
+# 3. Calculate the cumulative product of the fractions to get the terms of the series
+# This creates the vector: [2/3, (2/3)*(4/5), (2/3)*(4/5)*(6/7), ...]
+series_terms <- cumprod(fractions)
+
+# 4. The final answer is 1 plus the sum of all the terms calculated above
+total_sum <- 1 + sum(series_terms)
+
+# 5. Display the result
+print(total_sum)
+```
+
+------------------------------------------------------------------------
+
+# Ex.2
+
+## Q.1
+
+### (a)
+
+```{r}
+# Define the matrix A
+A <- matrix(c(1, 5, -2, 1, 2, -1, 3, 6, -3), nrow = 3, byrow = FALSE)
+
+# Print the original matrix A to check
+cat("Original Matrix A:\n")
+print(A)
+
+# Calculate A^2 = A %*% A
+A_squared <- A %*% A
+
+# Calculate A^3 = A^2 %*% A
+A_cubed <- A_squared %*% A
+
+# Print the result of A^3
+cat("\nA^3:\n")
+print(A_cubed)
+```
+
+### (b)
+
+```{r}
+# We use the matrix A defined in the previous part
+
+# Create a copy of A to modify
+A_modified <- A
+
+# Calculate the sum of the second and third columns
+col_sum <- A[, 2] + A[, 3]
+
+# Replace the third column of the new matrix with the sum
+A_modified[, 3] <- col_sum
+
+# Print the modified matrix
+cat("Matrix with replaced third column:\n")
+print(A_modified)
+```
+
+## Q.2
+
+```{r}
+# Create the matrix B with 15 rows.
+# The pattern for each row is the vector c(10, -10, 10).
+# We can create this by providing the data and specifying the dimensions.
+# The `byrow = TRUE` argument fills the matrix row by row with the provided data vector.
+B <- matrix(data = c(10, -10, 10), nrow = 15, ncol = 3, byrow = TRUE)
+
+# Optional: Print the first few rows of B to verify it was created correctly.
+cat("First 5 rows of matrix B:\n")
+print(head(B, 5))
+
+# Calculate the 3x3 matrix B^T * B using the crossprod() function.
+# This is an efficient shortcut for t(B) %*% B
+BTB <- crossprod(B)
+
+# Print the resulting 3x3 matrix.
+cat("\nThe resulting 3x3 matrix B^T * B:\n")
+print(BTB)
+```
+
+## Q.3
+
+```{r}
+# Create a 6x6 matrix with every entry equal to 0
+matE <- matrix(0, nrow = 6, ncol = 6)
+
+# Print the matrix to verify
+cat("Initial 6x6 zero matrix (matE):\n")
+print(matE)
+
+# Check what the row() function returns
+cat("\nOutput of row(matE):\n")
+print(row(matE))
+
+# Check what the col() function returns
+cat("\nOutput of col(matE):\n")
+print(col(matE))
+
+# We can create a logical matrix where the condition is TRUE
+# if the absolute difference between the row and column index is 1.
+logical_matrix <- abs(row(matE) - col(matE)) == 1
+
+cat("\nLogical matrix where abs(row - col) == 1:\n")
+print(logical_matrix)
+
+# Coerce the logical matrix (TRUE/FALSE) into a numeric matrix (1/0)
+# Adding 0 is a common R trick to do this conversion.
+final_matrix <- logical_matrix + 0
+
+cat("\nFinal 6x6 matrix:\n")
+print(final_matrix)
+```
+
+## Q.4
+
+```{r}
+# The problem asks us to first look at the help for the function outer.
+# You can do this by running the following command in the R console:
+# ?outer
+
+# The pattern in the matrix is that each element at position (row, col)
+# is the sum of (row_index - 1) and (col_index - 1).
+# We can represent these zero-based indices with a vector.
+indices <- 0:4
+
+# Now, we use the outer() function.
+# It will take the 'indices' vector for the rows, the 'indices' vector
+# for the columns, and apply the addition function ("+") to every pair.
+patterned_matrix <- outer(indices, indices, FUN = "+")
+
+# Print the final matrix to the console
+print(patterned_matrix)
+```
+
+## Q.6 (extra)
+
+```{r}
+# 1. Define the size of the system
+# This makes the solution easily generalizable to larger systems.
+n <- 5
+
+# 2. Programmatically create the matrix A using its special structure.
+# The value at A[i, j] is given by the formula |i - j| + 1.
+# The outer() function is perfect for this. It applies a function to all
+# pairs of elements from two vectors (in this case, the indices 1:n).
+A <- abs(outer(1:n, 1:n, FUN = "-")) + 1
+
+# Print the generated matrix A to verify it's correct
+cat("Generated Matrix A:\n")
+print(A)
+
+# 3. Define the vector y (the right-hand side of the equations)
+y <- c(7, -1, -3, 5, 17)
+
+# Print the vector y
+cat("\nVector y:\n")
+print(y)
+
+# 4. Solve the system Ax = y for x.
+# The solve(A, y) function is the most direct and numerically stable
+# way to find x in R.
+x_solution <- solve(A, y)
+
+# 5. Print the final solution for the unknowns
+cat("\nSolution (vector x):\n")
+print(x_solution)
+```
+
+------------------------------------------------------------------------
+
+# Ex.3
+
+## Q.1
+
+### (a)
+
+```{r}
+# tmpFn1 returns a vector where the i-th element is x_i^i
+tmpFn1 <- function(xVec) {
+  # Create a sequence of indices from 1 to the length of the vector
+  indices <- 1:length(xVec)
+  
+  # Raise each element of xVec to the power of its corresponding index
+  return(xVec ^ indices)
+}
+
+# --- Example Usage ---
+my_vector <- c(2, 3, 4)
+# Expected output: c(2^1, 3^2, 4^3) = c(2, 9, 64)
+result1 <- tmpFn1(my_vector)
+
+cat("Result of tmpFn1:", result1, "\n")
+
+# tmpFn2 returns a vector where the i-th element is (x_i^i) / i
+tmpFn2 <- function(xVec) {
+  # Create a sequence of indices
+  indices <- 1:length(xVec)
+  
+  # Raise each element to its index power, then divide by the index
+  return((xVec ^ indices) / indices)
+}
+
+# --- Example Usage ---
+my_vector <- c(2, 3, 4)
+# Expected output: c(2^1/1, 3^2/2, 4^3/3) = c(2, 4.5, 21.333...)
+result2 <- tmpFn2(my_vector)
+
+cat("Result of tmpFn2:", result2, "\n")
+```
+
+### (b)
+
+```{r}
+# tmpFn3 calculates the sum 1 + x/1 + x^2/2 + ... + x^n/n
+tmpFn3 <- function(x, n) {
+  # Ensure n is a positive integer
+  if (n <= 0 || n %% 1 != 0) {
+    stop("n must be a strictly positive integer.")
+  }
+  
+  # Create a sequence of exponents/denominators from 1 to n
+  k <- 1:n
+  
+  # Calculate all the terms of the series (x^k / k)
+  series_terms <- (x^k) / k
+  
+  # Return 1 plus the sum of all the calculated terms
+  return(1 + sum(series_terms))
+}
+
+# --- Example Usage ---
+# Calculate for x = 2 and n = 3
+# Expected output: 1 + (2^1)/1 + (2^2)/2 + (2^3)/3 = 1 + 2 + 2 + 2.666...
+result3 <- tmpFn3(x = 2, n = 3)
+
+cat("Result of tmpFn3 for x=2, n=3:", result3, "\n")
+```
+
+## Q.2
+
+```{r}
+# Define the function tmpFn
+tmpFn <- function(xVec) {
+  # Get the length of the input vector
+  n <- length(xVec)
+
+  # A 3-point moving average requires a vector with at least 3 elements.
+  # If the vector is too short, return an informative message and an empty result.
+  if (n < 3) {
+    warning("Input vector is too short. It must have at least 3 elements.")
+    return(numeric(0)) # Return an empty numeric vector
+  }
+
+  # To calculate the sums in a vectorized way, we create three vectors:
+  # 1. The vector from the first to the third-to-last element.
+  vec1 <- xVec[1:(n - 2)]
+  # 2. The vector from the second to the second-to-last element.
+  vec2 <- xVec[2:(n - 1)]
+  # 3. The vector from the third to the last element.
+  vec3 <- xVec[3:n]
+
+  # The moving sum is the element-wise sum of these three vectors.
+  # We then divide by 3 to get the average.
+  moving_averages <- (vec1 + vec2 + vec3) / 3
+
+  return(moving_averages)
+}
+
+# --- Try out the function with the example ---
+
+# The example vector is c(1:5, 6:1), which is c(1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1)
+example_vector <- c(1:5, 6:1)
+
+cat("The example vector is:\n")
+print(example_vector)
+
+# Call the function with the example vector
+result <- tmpFn(example_vector)
+
+cat("\nThe resulting vector of moving averages is:\n")
+print(result)
+```
+
+## Q.3
+
+```{r}
+# 1. Define the piecewise function `tmpFn`
+
+tmpFn <- function(xVec) {
+  # Initialize an empty numeric vector to store the results.
+  # It has the same length as the input vector.
+  yVec <- numeric(length(xVec))
+  
+  # Create logical vectors to identify which elements fall into each category.
+  condition1 <- xVec < 0
+  condition2 <- xVec >= 0 & xVec < 2
+  condition3 <- xVec >= 2
+  
+  # Use these logical vectors as indices to apply the correct formula
+  # to the right elements, all at once (this is called vectorization).
+  yVec[condition1] <- xVec[condition1]^2 + 2 * xVec[condition1] + 3
+  yVec[condition2] <- xVec[condition2] + 3
+  yVec[condition3] <- xVec[condition3]^2 + 4 * xVec[condition3] - 7
+  
+  # Return the final vector of results
+  return(yVec)
+}
+
+
+# 2. Plot the function f(x) for -3 < x < 3
+
+# Generate a sequence of 500 x-values in the desired range to create a smooth line.
+x_coords <- seq(from = -3, to = 3, length.out = 500)
+
+# Calculate the corresponding y-values by passing the x-values to our function.
+y_coords <- tmpFn(x_coords)
+
+# Create the plot.
+plot(x_coords, y_coords,
+     type = "l",                         # "l" specifies a line plot.
+     col = "blue",                       # Sets the line color.
+     lwd = 2,                            # Sets the line width to be a bit thicker.
+     main = "Plot of f(x)",              # Adds a title to the plot.
+     xlab = "x",                         # Labels the x-axis.
+     ylab = "f(x)")                      # Labels the y-axis.
+
+# Add a grid to the background for easier reading.
+grid()
+
+# Add vertical dashed lines at x=0 and x=2 to show where the function's definition changes.
+abline(v = c(0, 2), col = "grey", lty = 2)
+```
+
+## Q.4
+
+```{r}
+# Define the function to double odd numbers in a matrix
+doubleOdds <- function(input_matrix) {
+  # 1. Create a logical matrix of the same size as the input.
+  #    It will be TRUE where the element is odd and FALSE where it is even.
+  #    The modulo operator `%%` gives the remainder of a division.
+  #    A number is odd if its remainder when divided by 2 is not 0.
+  is_odd <- input_matrix %% 2 != 0
+  
+  # 2. Use this logical matrix as an index to select only the odd numbers.
+  #    Then, multiply these selected numbers by 2 and assign them back
+  #    to their original positions.
+  input_matrix[is_odd] <- input_matrix[is_odd] * 2
+  
+  # 3. Return the modified matrix.
+  return(input_matrix)
+}
+
+# --- Example Usage ---
+
+# First, create the matrix from the problem description.
+# Note: The matrix() function in R fills by column by default.
+original_matrix <- matrix(c(1, 5, -2, 1, 2, -1, 3, 6, -3), nrow = 3)
+
+cat("Original Matrix:\n")
+print(original_matrix)
+
+# Now, apply the function to this matrix.
+result_matrix <- doubleOdds(original_matrix)
+
+cat("\nMatrix after doubling odd numbers:\n")
+print(result_matrix)
+```
+
+## Q.5 (extra)
+
+```{r}
+# Define the function to create the special matrix
+create_matrix <- function(n, k) {
+  
+  # Add a check to ensure n and k are positive integers
+  if (n <= 0 || n %% 1 != 0 || k <= 0 || k %% 1 != 0) {
+    stop("Both n and k must be positive integers.")
+  }
+  
+  # 1. Start by creating an n x n matrix filled with zeros.
+  mat <- matrix(0, nrow = n, ncol = n)
+  
+  # 2. Set the main diagonal to k.
+  #    The main diagonal is where the row index equals the column index.
+  mat[row(mat) == col(mat)] <- k
+  
+  # 3. Set the diagonals directly above and below the main one to 1.
+  #    This is where the absolute difference between the row and column index is 1.
+  mat[abs(row(mat) - col(mat)) == 1] <- 1
+  
+  # 4. Return the final matrix.
+  return(mat)
+}
+
+
+# --- Example Usage (as suggested in the hint) ---
+
+# Set the values for the specific case
+n_val <- 5
+k_val <- 2
+
+# Call the function with these values
+result_matrix <- create_matrix(n = n_val, k = k_val)
+
+# Print the resulting matrix
+cat(paste("Result for n =", n_val, "and k =", k_val, ":\n"))
+print(result_matrix)
+```
+
+------------------------------------------------------------------------
+
+# Ex.4
+
+## Q.1
+
+### (a)
+
+```{r}
+# Function using outer()
+compute_z_outer <- function(xVec, yVec) {
+  # outer(yVec, xVec, "<") creates a matrix where the element at [j, k]
+  # is the result of yVec[j] < xVec[k].
+  # This results in a matrix of TRUE/FALSE values.
+  comparison_matrix <- outer(yVec, xVec, FUN = "<")
+  
+  # colSums() on a logical matrix treats TRUE as 1 and FALSE as 0,
+  # effectively counting the number of TRUEs in each column.
+  zVec <- colSums(comparison_matrix)
+  
+  return(zVec)
+}
+```
+
+### (b)
+
+```{r}
+# Function using sapply()
+compute_z_sapply <- function(xVec, yVec) {
+  # sapply iterates through each element 'x' in xVec.
+  # For each 'x', it executes the function: sum(yVec < x).
+  # The expression 'yVec < x' returns a logical vector (TRUE/FALSE).
+  # sum() then counts the number of TRUEs.
+  zVec <- sapply(xVec, function(x) {
+    sum(yVec < x)
+  })
+  
+  return(zVec)
+}
+```
+
+### (c)
+
+```{r}
+# Function using vapply()
+compute_z_vapply <- function(xVec, yVec) {
+  # vapply works like sapply but requires you to pre-specify the 
+  # format of the output, which can be safer and more efficient.
+  # FUN.VALUE = numeric(1) tells vapply that the function will
+  # return a single numeric value for each element in xVec.
+  zVec <- vapply(xVec, function(x) {
+    sum(yVec < x)
+  }, FUN.VALUE = numeric(1))
+  
+  return(zVec)
+}
+```
+
+### (d)
+
+```{r}
+compute_z_vapply_checked <- function(xVec, yVec) {
+  # 1. Check if inputs are vectors (not matrices, lists, etc.)
+  if (!is.vector(xVec) || !is.atomic(xVec) || !is.vector(yVec) || !is.atomic(yVec)) {
+    stop("Error: Both inputs must be atomic vectors.")
+  }
+  
+  # 2. Check if the vectors are numeric
+  if (!is.numeric(xVec) || !is.numeric(yVec)) {
+    stop("Error: Both vectors must be numeric.")
+  }
+  
+  # 3. If all checks pass, proceed with the calculation
+  zVec <- vapply(xVec, function(x) {
+    sum(yVec < x)
+  }, FUN.VALUE = numeric(1))
+  
+  return(zVec)
+}
+```
+
+### (e)
+
+```{r}
+# --- Create large vectors for a meaningful speed test ---
+# Set seed for reproducibility
+set.seed(123) 
+n <- 2000
+m <- 10000
+big_xVec <- rnorm(n)
+big_yVec <- rnorm(m)
+
+# --- Time each function ---
+print("Timing the 'outer' solution:")
+time_outer <- system.time({
+  z1 <- compute_z_outer(big_xVec, big_yVec)
+})
+print(time_outer)
+
+print("Timing the 'sapply' solution:")
+time_sapply <- system.time({
+  z2 <- compute_z_sapply(big_xVec, big_yVec)
+})
+print(time_sapply)
+
+print("Timing the 'vapply' solution:")
+time_vapply <- system.time({
+  z3 <- compute_z_vapply(big_xVec, big_yVec)
+})
+print(time_vapply)
+```
+
+## Q.2
+
+### (a)
+
+```{r}
+#' @title Filter Matrix Columns
+#' @description This function takes a matrix and returns a submatrix containing
+#' only the columns that have no NA values.
+#'
+#' @param matA A matrix that may contain NA values.
+#'
+#' @return A matrix containing only the columns from matA with no NAs.
+#' If no columns are complete, it returns a matrix with 0 columns.
+#'
+get_complete_cols <- function(matA) {
+  
+  # Create a logical vector where TRUE corresponds to a column with zero NAs
+  cols_to_keep <- colSums(is.na(matA)) == 0
+  
+  # Subset the original matrix to select all rows but only the columns
+  # identified above. 'drop = FALSE' ensures the result is always a 
+  # matrix, even if only one column remains.
+  return(matA[, cols_to_keep, drop = FALSE])
+  
+}
+```
+
+### (b)
+
+```{r}
+#' @title Filter Matrix by Complete Rows and Columns
+#' @description This function takes a matrix and returns a submatrix by removing
+#' any row or column that contains at least one NA value.
+#'
+#' @param matA A matrix that may contain NA values.
+#'
+#' @return A submatrix where all NA-containing rows and columns from the
+#' original matrix have been deleted.
+#'
+remove_na_rows_cols <- function(matA) {
+  
+  # 1. Identify the rows that have no NA values.
+  # The result is a logical vector (e.g., c(TRUE, FALSE, TRUE)).
+  rows_to_keep <- rowSums(is.na(matA)) == 0
+  
+  # 2. Identify the columns that have no NA values.
+  # This also results in a logical vector.
+  cols_to_keep <- colSums(is.na(matA)) == 0
+  
+  # 3. Subset the matrix using the two logical vectors.
+  # 'drop = FALSE' ensures the function always returns a matrix.
+  return(matA[rows_to_keep, cols_to_keep, drop = FALSE])
+  
+}
+```
+
+## Q.3
+
+### (a)
+
+```{r}
+#' @title Calculate the Empirical Copula
+#' @description Computes the value of the empirical copula C(u, v) for given
+#' data vectors and coordinates.
+#'
+#' @param u A numeric value between 0 and 1.
+#' @param v A numeric value between 0 and 1.
+#' @param xVec A numeric vector.
+#' @param yVec A numeric vector of the same length as xVec.
+#'
+#' @return The numeric value of the empirical copula C(u, v).
+#'
+empCopula <- function(u, v, xVec, yVec) {
+  
+  # 1. Find n, the number of data points.
+  n <- length(xVec)
+  
+  # 2. Calculate the rank vectors r and s for xVec and yVec.
+  # The rank() function correctly assigns rank 1 to the smallest value.
+  rVec <- rank(xVec)
+  sVec <- rank(yVec)
+  
+  # 3. Create the condition for the indicator function I(...).
+  # This is done efficiently using vectorized operations. The result is a
+  # logical vector of TRUE/FALSE values.
+  indicator_condition <- (rVec / (n + 1) <= u) & (sVec / (n + 1) <= v)
+  
+  # 4. Sum the results of the indicator function. In R, sum() on a logical
+  # vector treats TRUE as 1 and FALSE as 0. This is equivalent to
+  # the summation in the formula.
+  sum_of_indicators <- sum(indicator_condition)
+  
+  # 5. Divide by n to get the final value.
+  return(sum_of_indicators / n)
+  
+}
+```
+
+### (b)
+
+```{r}
+#' @title Vectorized Empirical Copula Calculation
+#' @description Computes the empirical copula C(u, v) for vectors of
+#' coordinates u and v.
+#'
+#' @param uVec A numeric vector of u-coordinates, with values in [0, 1].
+#' @param vVec A numeric vector of v-coordinates, same length as uVec.
+#' @param xVec A numeric vector of x data.
+#' @param yVec A numeric vector of y data, same length as xVec.
+#'
+#' @return A numeric vector of copula values, one for each (u, v) pair.
+#'
+empCopula_vec <- function(uVec, vVec, xVec, yVec) {
+  
+  # --- Pre-computation ---
+  # These values are constant for all (u, v) pairs.
+  n <- length(xVec)
+  r_norm <- rank(xVec) / (n + 1)
+  s_norm <- rank(yVec) / (n + 1)
+  
+  # --- Vectorized Calculation ---
+  
+  # 1. Use outer() to compare each normalized rank against each u value.
+  # The result, mat_r, is a matrix where mat_r[j, i] is TRUE if r_norm[j] <= uVec[i].
+  mat_r <- outer(r_norm, uVec, FUN = "<=")
+  
+  # 2. Do the same for the s ranks and v values.
+  mat_s <- outer(s_norm, vVec, FUN = "<=")
+  
+  # 3. Combine the matrices. The indicator condition is TRUE only if both
+  # r and s conditions are met.
+  indicator_matrix <- mat_r & mat_s
+  
+  # 4. Use colSums() to sum the TRUE values down each column. Each column 'i'
+  # corresponds to the pair (uVec[i], vVec[i]).
+  sum_vec <- colSums(indicator_matrix)
+  
+  # 5. Divide the vector of sums by n to get the final result.
+  return(sum_vec / n)
+  
+}
+```
+
+## Q.4
+
+### (a)
+
+```{r}
+# Define the function using nested loops
+funA <- function(n) {
+  total_sum <- 0
+  for (i in 1:n) {
+    for (s in 1:i) {
+      term <- s^2 / (10 + 4 * i^3)
+      total_sum <- total_sum + term
+    }
+  }
+  return(total_sum)
+}
+
+# Set a value for n
+n <- 1000
+
+# Time the execution of funA
+system.time(result_A <- funA(n))
+
+# Print the result
+print(result_A)
+```
+
+### (b)
+
+```{r}
+# Define the function using row() and col()
+funB <- function(n) {
+  # Create a dummy matrix to get row/col indices
+  dummy_matrix <- matrix(NA, nrow = n, ncol = n)
+  s <- row(dummy_matrix) # Row index represents 's'
+  i <- col(dummy_matrix) # Column index represents 'i'
+
+  # Calculate the matrix of all possible terms
+  term_matrix <- s^2 / (10 + 4 * i^3)
+  
+  # The condition is s <= i. We set all terms where s > i to 0.
+  term_matrix[s > i] <- 0
+  
+  # Return the sum of the valid matrix elements
+  return(sum(term_matrix))
+}
+
+# Time the execution of funB
+system.time(result_B <- funB(n))
+
+# Print the result
+print(result_B)
+```
+
+### (c)
+
+```{r}
+# Define the function using outer()
+funC <- function(n) {
+  # Define the sequences for s and i
+  s_vals <- 1:n
+  i_vals <- 1:n
+
+  # Define the function to calculate a single term
+  term_function <- function(s, i) {
+    return(s^2 / (10 + 4 * i^3))
+  }
+
+  # Use outer() to create the matrix of all possible terms
+  full_matrix <- outer(s_vals, i_vals, term_function)
+  
+  # Sum only the elements where s <= i, which is the lower triangle
+  # of the matrix including the diagonal.
+  result <- sum(full_matrix[lower.tri(full_matrix, diag = TRUE)])
+  
+  return(result)
+}
+
+# Time the execution of funC
+system.time(result_C <- funC(n))
+
+# Print the result
+print(result_C)
+```
+
+### (d)
+
+```{r}
+# This function calculates the inner sum for a single value of 'r'.
+# It is optimized by calculating the sum of squares first.
+inner_sum_fun <- function(r) {
+  # Denominator is constant for a given r
+  denominator <- 10 + 4 * r^3
+  
+  # Numerator is the sum of s^2 from s=1 to r
+  s_vals <- 1:r
+  numerator <- sum(s_vals^2)
+  
+  return(numerator / denominator)
+}
+
+# funD uses sapply to apply the inner sum function over i = 1...n
+funD <- function(n) {
+  # sapply returns a vector containing the result of inner_sum_fun(i) for each i
+  vector_of_inner_sums <- sapply(1:n, inner_sum_fun)
+  
+  # The final result is the sum of these inner sums
+  return(sum(vector_of_inner_sums))
+}
+
+# Set n to the same value for comparison
+n <- 1000
+
+# Time the execution of funD
+system.time(result_D <- funD(n))
+
+# Print the result
+print(result_D)
+
+# funE uses lapply and unlist to achieve the same result as funD
+funE <- function(n) {
+  # lapply returns a list
+  list_of_inner_sums <- lapply(1:n, inner_sum_fun)
+  
+  # unlist() converts the list to a vector
+  vector_of_inner_sums <- unlist(list_of_inner_sums)
+  
+  return(sum(vector_of_inner_sums))
+}
+
+# Time the execution of funE
+system.time(result_E <- funE(n))
+
+# Print the result
+print(result_E)
+```
+
+### (e)
+
+```{r}
+# First, write a function for the term itself, using an indicator.
+# Note: The prompt uses 'r' as the second argument, which corresponds to 'i' in the sum.
+indicator_term_fun <- function(s, r) {
+  # (s <= r) evaluates to TRUE (1) or FALSE (0), implementing the indicator
+  term <- (s <= r) * s^2 / (10 + 4 * r^3)
+  return(term)
+}
+
+# Now, write funF which uses mapply to calculate the double sum
+funF <- function(n) {
+  # expand.grid creates a data frame of all combinations of s and i
+  all_pairs <- expand.grid(s = 1:n, i = 1:n)
+  
+  # mapply applies the function to corresponding elements of the s and i vectors
+  # The 'r' argument in our helper function receives the values from all_pairs$i
+  all_terms <- mapply(indicator_term_fun, s = all_pairs$s, r = all_pairs$i)
+  
+  # The final answer is the sum of all terms (the invalid ones are zero)
+  return(sum(all_terms))
+}
+
+# Set n to the same value for comparison
+n <- 1000
+
+# Time the execution of funF
+system.time(result_F <- funF(n))
+
+# Print the result
+print(result_F)
+```
+
+The fastest should be function E.
+
+------------------------------------------------------------------------
+
+# Ex.5
+
+## Q.1
+
+### (a)
+
+```{r}
+#' Calculate the Exponentially Weighted Moving Average (EWMA) of a Time Series
+#'
+#' @param tsDat A time series object.
+#' @param m0 The starting value for the moving average, m_0. Defaults to 0.
+#' @param delta The discount factor, δ. Defaults to 0.7.
+#'
+#' @return A time series object representing the EWMA (m_1, m_2, ..., m_n).
+#'
+tsEwma <- function(tsDat, m0 = 0, delta = 0.7) {
+  
+  # Get the number of observations in the time series
+  n <- length(tsDat)
+  
+  # Initialize a numeric vector to store the EWMA values
+  m <- numeric(n)
+  
+  # Set the initial value m_{t-1} for the first iteration to m0
+  m_prev <- m0
+  
+  # Loop through each observation in the time series from t = 1 to n
+  for (t in 1:n) {
+    
+    # Calculate the error term: e_t = z_t - m_{t-1}
+    e_t <- tsDat[t] - m_prev
+    
+    # Calculate the new moving average: m_t = m_{t-1} + (1 - δ) * e_t
+    m_t <- m_prev + (1 - delta) * e_t
+    
+    # Store the calculated value m_t in our results vector
+    m[t] <- m_t
+    
+    # Update m_prev for the next iteration
+    m_prev <- m_t
+  }
+  
+  # Convert the vector of results back into a time series object,
+  # preserving the start date and frequency of the original series.
+  ewma_ts <- ts(m, start = start(tsDat), frequency = frequency(tsDat))
+  
+  # Return the final time series
+  return(ewma_ts)
+}
+
+# --- Example of How to Use the Function ---
+
+# 1. Create a sample vector of data
+datVec <- c(10, 12, 15, 11, 13, 16, 18, 17)
+
+# 2. Create a time series object starting in March 1960, with monthly frequency
+tsDat_sample <- ts(datVec, start = c(1960, 3), frequency = 12)
+
+# 3. Call the tsEwma function with the sample data
+# We'll use the default values for m0 (0) and delta (0.7)
+ewma_result <- tsEwma(tsDat_sample)
+
+# 4. Print the original and resulting time series to compare
+print("Original Time Series (z_t):")
+print(tsDat_sample)
+
+print("Exponentially Weighted Moving Average (m_t):")
+print(ewma_result)
+```
+
+### (b)
+
+```{r}
+#' Calculate EWMA (Faster Version)
+#'
+#' This version improves performance by converting the time series to a vector
+#' before looping.
+#'
+#' @param tsDat A time series object.
+#' @param m0 The starting value for the moving average, m_0. Defaults to 0.
+#' @param delta The discount factor, δ. Defaults to 0.7.
+#'
+#' @return A time series object representing the EWMA (m_1, m_2, ..., m_n).
+#'
+tsEwma_fast <- function(tsDat, m0 = 0, delta = 0.7) {
+  
+  # --- Improvement ---
+  # Convert the time series to a plain vector to speed up the loop.
+  datVec <- as.vector(tsDat)
+  
+  # Get the number of observations
+  n <- length(datVec)
+  
+  # Initialize a numeric vector to store the EWMA values
+  m <- numeric(n)
+  
+  # Set the initial value m_{t-1} for the first iteration to m0
+  m_prev <- m0
+  
+  # Loop through each observation in the faster vector
+  for (t in 1:n) {
+    
+    # Calculate the error term: e_t = z_t - m_{t-1}
+    e_t <- datVec[t] - m_prev # Looping over vector 'datVec' now
+    
+    # Calculate the new moving average: m_t = m_{t-1} + (1 - δ) * e_t
+    m_t <- m_prev + (1 - delta) * e_t
+    
+    # Store the calculated value m_t in our results vector
+    m[t] <- m_t
+    
+    # Update m_prev for the next iteration
+    m_prev <- m_t
+  }
+  
+  # Convert the vector of results back into a time series object
+  ewma_ts <- ts(m, start = start(tsDat), frequency = frequency(tsDat))
+  
+  # Return the final time series
+  return(ewma_ts)
+}
+```
+
+Speed comparison:
+
+```{r}
+# For clarity, let's rename the original function from part (a)
+tsEwma_slow <- function(tsDat, m0 = 0, delta = 0.7) {
+  n <- length(tsDat)
+  m <- numeric(n)
+  m_prev <- m0
+  for (t in 1:n) {
+    e_t <- tsDat[t] - m_prev # This line accesses the ts object directly
+    m_t <- m_prev + (1 - delta) * e_t
+    m[t] <- m_t
+    m_prev <- m_t
+  }
+  ewma_ts <- ts(m, start = start(tsDat), frequency = frequency(tsDat))
+  return(ewma_ts)
+}
+
+
+# 1. Create a large time series to make the speed difference noticeable
+#    Let's use 1 million data points.
+set.seed(42) # For reproducible results
+large_vec <- rnorm(1000000)
+large_ts <- ts(large_vec, start = 1900, frequency = 12)
+
+
+# 2. Time the original (slower) function
+cat("--- Timing the original (slow) function ---\n")
+time_slow <- system.time({
+  result_slow <- tsEwma_slow(large_ts)
+})
+print(time_slow)
+
+
+# 3. Time the improved (faster) function
+cat("\n--- Timing the improved (fast) function ---\n")
+time_fast <- system.time({
+  result_fast <- tsEwma_fast(large_ts)
+})
+print(time_fast)
+```
+
+## Q.2
+### (a)
+
+```{r}
+
+```
+
