@@ -1,0 +1,34 @@
+---
+title: "Data Visualization"
+author: "Guowen Xing"
+format: html
+editor: visual
+---
+
+## Explanation
+
+The **Titanic** dataset provides a summary of the survival status of passengers and crew aboard the Titanic. The data has 4 factors: passenger class (`Class`), gender (`Sex`), age (`Age`), and whether they survived (`Survived`). This visualization aims to explore the sursvival counts across different passenger classes and genders.
+
+## Load Dataset
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+data("Titanic")
+titanic <- as.data.frame(Titanic)
+```
+
+## Visualization
+
+```{r}
+ggplot(titanic, aes(x = Survived, y = Freq, fill = Survived)) +
+  geom_col(alpha = 0.9) +
+  facet_grid(Sex ~ Class) +
+  scale_fill_manual(values = c("No" = "red", "Yes" = "lightgreen")) +
+  labs(
+    title = "Survival on the Titanic by Class and Gender",
+    x = "Survival Status",
+    y = "Number of People"
+  )
+```
