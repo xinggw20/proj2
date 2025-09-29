@@ -1,0 +1,61 @@
+---
+title: "Assignment D"
+author: "Guowen Xing"
+format: html
+editor: visual
+---
+
+## Question
+
+Is there a relationship between wind speed and wave height?
+
+## Plot
+
+```{r}
+library(ggplot2)
+library(readr)
+library(dplyr)
+
+header_line <- read_lines("44013h2024.txt", n_max = 1)
+col_names <- strsplit(gsub("^#", "", header_line), "\\s+")[[1]]
+
+buoy_data <- read_table("44013h2024.txt",
+                        skip = 2,
+                        col_names = col_names)
+
+buoy_data_clean <- buoy_data %>%
+  mutate(
+    WSPD = as.numeric(WSPD),
+    WVHT = as.numeric(WVHT)
+  ) %>%
+  filter(!is.na(WSPD), !is.na(WVHT), WSPD < 99, WVHT < 99)
+
+correlation_value <- cor(buoy_data_clean$WSPD, buoy_data_clean$WVHT)
+
+regression_model <- lm(WVHT ~ WSPD, data = buoy_data_clean)
+r_squared_value <- summary(regression_model)$r.squared
+
+ggplot(buoy_data_clean, aes(x = WSPD, y = WVHT)) +
+  geom_point(alpha = 0.4, color = "gray") +
+  geom_smooth(method = "lm", col = "darkred", se = FALSE) +
+  labs(
+    title = "Wave Height vs. Wind Speed at Buoy 44013 (2024)",
+    x = "Wind Speed (m/s)",
+    y = "Wave Height (m)",
+  ) +
+  theme_minimal(base_size = 14) +
+  annotate("text", x = Inf, y = Inf,
+           label = paste("Correlation (r) =", round(correlation_value, 2)),
+           hjust = 1.1, vjust = 2.5, size = 5, fontface="bold") +
+  annotate("text", x = Inf, y = Inf,
+           label = paste("R-squared =", round(r_squared_value, 2)),
+           hjust = 1.1, vjust = 4.5, size = 5, fontface="bold")
+```
+
+## Explain
+
+This plot shows a strong, positive relationship between wind speed and wave height.
+
+Correlation r = 0.62: Indicates a strong positive linear relationship. A value of 1 would be a perfect positive correlation, so 0.62 is very high.
+
+R-squared = 0.38: Means that 38% of the value in wave height is predictable from the wind speed alone.
