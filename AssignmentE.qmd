@@ -1,0 +1,76 @@
+---
+title: "AssignmentE"
+author: "Guowen Xing"
+format: html
+editor: visual
+---
+
+## Part 1
+
+```{r}
+library(tidyverse)
+
+messy_data <- read_csv("WDBD.csv")
+
+cleaned_data <- messy_data %>%
+  filter(!if_all(everything(), is.na))
+
+tidied_data <- cleaned_data %>%
+  rename_with(~str_extract(., "\\d{4}"), starts_with("2")) %>%
+  pivot_longer(
+    cols = matches("^\\d{4}$"), # Select years
+    names_to = "Year",
+    values_to = "Value"
+  )
+
+final_data <- tidied_data %>%
+  mutate(
+    Unit = str_extract(`Series Name`, "\\((.*?)\\)"), # Extract text
+    `Series Name` = str_replace(`Series Name`, "\\s*\\(.*?\\)\\s*", "") # Remove unit
+  ) %>%
+  # Clean the unit, remove the parentheses
+  mutate(Unit = str_replace_all(Unit, "[()]", "")) %>%
+  # Reorder columns
+  select(`Country Name`, `Country Code`, `Series Name`, `Series Code`, Year, Value, Unit)
+
+write_csv(final_data, "WDBD_tidy.csv")
+print(head(final_data))
+```
+
+identified messy aspects:
+
+The bottom of the file contained notes and data descriptions that were not part of the actual observations.
+
+Each year (e.g., 2018, 2019) was its own column, whereas in a tidy dataset, "Year" should be a single variable (one column).
+
+## Part 2
+
+```{r}
+movies_df <- read_csv("./movies.csv")
+
+movies_tidy <- movies_df %>%
+  # Separate the genres column into multiple rows.
+  separate_rows(genres, sep = "\\|") %>%
+  
+  # Filter out any rows where the genre is "(no genres listed)".
+  filter(genres != "(no genres listed)") %>%
+  
+  # Extract the year and clean the title.
+  # Find a 4-digit number inside parentheses at the end of the string.
+  extract(title, into = c("year"), regex = "\\((\\d{4})\\)$", remove = FALSE) %>%
+  
+  # Clean the title
+  mutate(
+    title = str_remove(title, "\\s*\\(\\d{4}\\)$"),
+    year = as.numeric(year)
+  ) %>%
+
+  # Select and reorder
+  select(movieId, title, year, genres)
+
+print("Original Messy Data:")
+head(movies_df)
+write_csv(movies_tidy, "movies_tidy.csv")
+print("Final Tidy Data:")
+head(movies_tidy)
+```
